@@ -1,11 +1,12 @@
-# react-typescript-tailwindcss-base
+# wrid_official_website
+
 
 ## 使用方式
 
 ### 下載專案
 
 ```
-$ git clone https://github.com/naluwan/react-typescript-tailwaindcss-base.git
+$ git clone https://github.com/naluwan/wrid_official_website.git
 ```
 
 ### 安裝依賴
