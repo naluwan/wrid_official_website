@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Process = () => {
+const Process: React.FC = () => {
   return <div>Process</div>;
 };
 
