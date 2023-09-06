@@ -10,10 +10,51 @@ import { Route, Routes } from 'react-router-dom';
 import Footer from 'sections/Footer';
 import NavBar from 'components/NavBar';
 
+export interface IRef {
+  getDiv: () => HTMLDivElement;
+  getButton: () => HTMLButtonElement;
+}
+
 const App: React.FC = () => {
+  const [openPanel, setOpenPanel] = React.useState(false);
+  const [isDark, setIsDark] = React.useState(false);
+
+  // popover panel ref
+  const panelRef = React.useRef<IRef>(null);
+
+  // 畫面點擊時，如果element沒有包含在popoverRef底下的話，就關閉panel
+  window.addEventListener('mousedown', (e) => {
+    if (
+      panelRef.current &&
+      !panelRef.current.getDiv().contains(e.target as HTMLElement) &&
+      !panelRef.current.getButton().contains(e.target as HTMLElement)
+    ) {
+      setOpenPanel(false);
+    }
+  });
+
+  // 進入網站檢查是否有設定深色模式
+  React.useEffect(() => {
+    const isDarkMode = localStorage.getItem('isDark') || 'false';
+    if (isDarkMode === 'true') {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <main className='relative'>
-      <NavBar />
+      <NavBar
+        ref={panelRef}
+        openPanel={openPanel}
+        onSetOpenPanel={setOpenPanel}
+        isDark={isDark}
+        onSetIsDark={setIsDark}
+      />
       <MaxContainer>
         <Routes>
           <Route element={<Home />} path='/' />
